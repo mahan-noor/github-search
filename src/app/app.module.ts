@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UsersComponent } from './users/users.component';
 import { RepositoriesComponent } from './repositories/repositories.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { RepositoriesComponent } from './repositories/repositories.component';
     HeaderComponent,
     NavbarComponent,
     UsersComponent,
-    RepositoriesComponent
+    RepositoriesComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
