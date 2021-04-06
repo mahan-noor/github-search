@@ -8,9 +8,11 @@ import { HeaderComponent } from './header/header.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UsersComponent } from './users/users.component';
 import { RepositoriesComponent } from './repositories/repositories.component';
-import { SearchComponent } from './search/search.component';
+import { SearchFormComponent } from './search-form/search-form.component';
 import { UserserviceService } from './userservice.service';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { DatePipePipe } from './date-pipe.pipe';
+import { HighlightDirective } from './highlight.directive'
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { HttpClientModule } from '@angular/common/http'
     NavbarComponent,
     UsersComponent,
     RepositoriesComponent,
-    SearchComponent,
+    SearchFormComponent,
+    DatePipePipe,
+    HighlightDirective,
   ],
   imports: [
     BrowserModule,
