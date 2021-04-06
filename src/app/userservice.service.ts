@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from './user';
 import { Repo } from './repo';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -10,68 +10,96 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root'
 })
 export class UserserviceService {
-  
-  foundUser: User;
-  allRepo: Repo;
+ 
+  user: User;
+  username: any;
+  repo: Repo[];
+  reponame: any;
 
-  constructor(private http: HttpClient) { 
-    this.foundUser =new User("", "", "", new Date, 0, 0 ,0 , "", "");
-    this.allRepo = new Repo("", "", "",new Date, 0)
+  constructor(private http: HttpClient) {
+    this.user = new User("", "", "", "", 0, 0, 0, "", "");
+
   }
+  
+  
 
-  searchUser(searchName: string){
+  searchUser(username: any){
 
-    interface User {
-      url: string;
+    interface apiUser {
+      name: string;
       login: string;
-      html_url: string;
+      html_url: any;
       location: string;
       public_repos: number;
       followers: number;
       following: number;
-      avatar_url:string;
-      created_at: Date;
+      avatar_url:any;
+     
     }
+    let promise = new Promise<void>((resolve, reject) => {
+      this.http.get<apiUser>(`${environment.apiKey}${username}?access_token${username}?client_id=${environment.apiKey}`).toPromise().then(response => {
+        this.user.name = response.name
+        this.user.login = response.login
+        this.user.html_url = response.html_url
+        this.user.followers = response.followers
+        this.user.following = response.following
+        this.user.public_repos = response.public_repos
+        // this.foundUser.created_at = response.created_at
+        this.user.avatar_url = response.avatar_url
 
-    return new Promise ((resolve, reject) => {
-
-      this.http.get<Response>('https://api.github.com/users/' +searchName+'?access_token='+environment.apiKey).toPromise().then(
-       (result)=> {
-        this.foundUser = result;
-        console.log(this.foundUser);
-        resolve();
+        resolve()
+        console.log(response)
       },
-      (error) => {
-        console.log(error)
-      }
-      );
-    });
-    
-    this.getrepositories(searchName){
-      interface Repo{
-        name: string;
-        html_url: string;
-        descpription: string;
-        forks: number;
-        created_at:Date;
-
-      }
-      return new Promise ((resolve, reject)) =>{
-
-        this.http.get<Repo>('https://api.github.com/users/' +searchName+"/repo?order=created&sort=asc?access_token="+environment.apiKey).toPromise().then(
-         (results)=> {
-          this.allRepo = results;
-          resolve();
-        },
-        (error) => {
-          console.log(error)
-          reject();
-        }
-        );
-      }
-    }
-
+        error => {
+          this.user.login = "User not found"
+          console.log("an error occured")
+          reject(error)
+        })
+    })
+    return promise
   }
 
+   allRepo(reponame: any) {
+    interface repoApiResponse {
+     name: string,
+     description: string,
+     language: string,
+     html_url: string
+     forks:any,
+  }
+  let promise = new Promise<void>((resolve, reject) => {
+    let arrayLength = this.repo.length;
+    this.repo = []
+    //  for (let i = 0; i < arrayLength; i++) { 
+    //      this.repo.pop()
+    //    }  
+      this.http.get<any>(`${environment.apiKey}${reponame}/repos`).toPromise().then(response => {
+       
+        for (let i = 0; i < response.length; i++) {
+          let repos = new Repo("", "", "", "", 0, new Date());
+          
+          repos.name = response[i]["name"]
+          repos.description = response[i]["description"]
+          repos.language = response[i]["language"]
+          repos.html_url = response[i]["html_url"]
+          repos.forks = response[i]["forks"]
+          repos.updated_at = response[i]["updated_at"]
+    
+          this.repo.push(repos)
+          resolve()
+          console.log(repos)
+        }
+      },
+        error => {
+          console.log("an error occured")
+          reject(error)
+        })
+    })
+    return promise
+  }     
 
+
+
+
+    
 }

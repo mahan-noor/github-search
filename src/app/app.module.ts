@@ -12,7 +12,8 @@ import { SearchFormComponent } from './search-form/search-form.component';
 import { UserserviceService } from './userservice.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipePipe } from './date-pipe.pipe';
-import { HighlightDirective } from './highlight.directive'
+import { HighlightDirective } from './highlight.directive';
+
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { HighlightDirective } from './highlight.directive'
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    
   ],
   providers: [UserserviceService],
   bootstrap: [AppComponent]
