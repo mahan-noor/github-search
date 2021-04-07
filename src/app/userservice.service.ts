@@ -68,7 +68,7 @@ export class UserserviceService {
      forks:any,
   }
   let promise = new Promise<void>((resolve, reject) => {
-    let arrayLength = this.repo.length;
+    // let arrayLength = this.repo.length;
     this.repo = []
     //  for (let i = 0; i < arrayLength; i++) { 
     //      this.repo.pop()
