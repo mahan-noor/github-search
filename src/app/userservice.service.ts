@@ -3,7 +3,6 @@ import { User } from './user';
 import { Repo } from './repo';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Reposearch }  from './reposearch'
 
 
 
@@ -11,21 +10,21 @@ import { Reposearch }  from './reposearch'
   providedIn: 'root'
 })
 export class UserserviceService {
- 
+
   user: User;
   username: any;
   repo: Repo[];
-  reponame: any;
-  repobyname: Reposearch [];
+
+  
 
   constructor(private http: HttpClient) {
     this.user = new User("", "", "", "", 0, 0, 0, "", "");
 
   }
-  
-  
 
-  searchUser(username: any){
+
+
+  searchUser(username: any) {
 
     interface apiUser {
       name: string;
@@ -35,8 +34,8 @@ export class UserserviceService {
       public_repos: number;
       followers: number;
       following: number;
-      avatar_url:any;
-     
+      avatar_url: any;
+
     }
     let promise = new Promise<void>((resolve, reject) => {
       this.http.get<apiUser>(`${environment.apiKey}${username}?access_token${username}?client_id=${environment.apiKey}`).toPromise().then(response => {
@@ -61,32 +60,32 @@ export class UserserviceService {
     return promise
   }
 
-   allRepo(reponame: any) {
+  allRepo(reponame: any) {
     interface repoApiResponse {
-     name: string,
-     description: string,
-     language: string,
-     html_url: string
-     forks:any,
-  } 
-  let promise = new Promise<void>((resolve, reject) => {
-    // let arrayLength = this.repo.length;
-    this.repo = []
-    //  for (let i = 0; i < arrayLength; i++) { 
-    //      this.repo.pop()
-    //    }  
+      name: string,
+      description: string,
+      language: string,
+      html_url: string
+      forks: any,
+    }
+    let promise = new Promise<void>((resolve, reject) => {
+      // let arrayLength = this.repo.length;
+      this.repo = []
+      //  for (let i = 0; i < arrayLength; i++) { 
+      //      this.repo.pop()
+      //    }  
       this.http.get<any>(`${environment.apiKey}${reponame}/repos`).toPromise().then(response => {
-       
+
         for (let i = 0; i < response.length; i++) {
           let repos = new Repo("", "", "", "", 0, new Date());
-          
+
           repos.name = response[i]["name"]
           repos.description = response[i]["description"]
           repos.language = response[i]["language"]
           repos.html_url = response[i]["html_url"]
           repos.forks = response[i]["forks"]
           repos.updated_at = response[i]["updated_at"]
-    
+
           this.repo.push(repos)
           resolve()
           console.log(repos)
@@ -98,39 +97,7 @@ export class UserserviceService {
         })
     })
     return promise
-  }     
-  
-  reposearchName(reponame: any){
-    interface repobyNameresponse{
-      items:[]
-    }
-    let promise = new Promise<void>((resolve, reject) => {
-      let arrayLength = this.repobyname.length;
-      for (let i = 0; i < arrayLength; i++) { 
-        this.repobyname.pop()
-      }
-      this.http.get<repobyNameresponse>(`${environment.Apirepo}${reponame}`).toPromise().then(response => {
-        for (let i = 0; i < response.items.length; i++) {
-          let repoByName = new Reposearch("", "", "", "", 0, new Date());
-          repoByName.name = response.items[i]["name"]
-          repoByName.description = response.items[i]["description"]
-          repoByName.language = response.items[i]["language"]
-          repoByName.html_url = response.items[i]["html_url"]
-          repoByName.forks = response.items[i]["forks"]
-          repoByName.updated_at = response.items[i]["updated_at"]
-          this.repobyname.push(repoByName)
-        }
-
-                resolve()
-      },
-        error => { 
-          console.log("an error occured")
-          reject(error)
-        })
-    })
-    return promise
-
   }
-  
+
 }
 
