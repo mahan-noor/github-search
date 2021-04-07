@@ -1,5 +1,5 @@
 .overlay{
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(188, 204, 211, 0.856);
     margin-top:1%;
     color: white;
     border: 1px solid white;
@@ -9,13 +9,13 @@
    
   }
   .card{
-    /* background: teal; */
+    background: teal;
     background-color: rgba(5, 146, 146, 0.6);
     box-shadow: 3px 3px 5px black;
   
   }
   .repo{
-    background-color:rgba(232, 253, 255, 0.705);
+    background-color:rgb(252, 255, 232);
     color: black;
     margin-bottom: 2%;
     border-radius: 4px; 
