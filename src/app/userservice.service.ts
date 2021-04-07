@@ -44,7 +44,7 @@ export class UserserviceService {
         this.user.followers = response.followers
         this.user.following = response.following
         this.user.public_repos = response.public_repos
-        // this.foundUser.created_at = response.created_at
+        // this.User.created_at = response.created_at
         this.user.avatar_url = response.avatar_url
 
         resolve()
@@ -66,7 +66,7 @@ export class UserserviceService {
      language: string,
      html_url: string
      forks:any,
-  }
+  } 
   let promise = new Promise<void>((resolve, reject) => {
     // let arrayLength = this.repo.length;
     this.repo = []
