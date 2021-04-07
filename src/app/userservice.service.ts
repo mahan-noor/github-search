@@ -3,6 +3,7 @@ import { User } from './user';
 import { Repo } from './repo';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { RepoName } from './repo-name';
 
 
 
@@ -13,7 +14,9 @@ export class UserserviceService {
 
   user: User;
   username: any;
-  repo: Repo[];
+  repo: Repo[] = [];
+  reponame:string;
+  reposByName: RepoName[]=[];
 
   
 
@@ -35,6 +38,7 @@ export class UserserviceService {
       followers: number;
       following: number;
       avatar_url: any;
+      created_at: any;
 
     }
     let promise = new Promise<void>((resolve, reject) => {
@@ -45,7 +49,7 @@ export class UserserviceService {
         this.user.followers = response.followers
         this.user.following = response.following
         this.user.public_repos = response.public_repos
-        // this.User.created_at = response.created_at
+         this.user.created_at = response.created_at
         this.user.avatar_url = response.avatar_url
 
         resolve()
@@ -92,6 +96,35 @@ export class UserserviceService {
         }
       },
         error => {
+          console.log("an error occured")
+          reject(error)
+        })
+    })
+    return promise
+  }
+  repoSearchName(reponame: any) {
+    interface repoByNameApiResponse {
+      items: []
+    }
+    let promise = new Promise<void>((resolve, reject) => {
+      let arrayLength = this.reposByName.length;
+      for (let i = 0; i < arrayLength; i++) { 
+        this.reposByName.pop()
+      }
+      this.http.get<repoByNameApiResponse>(`${environment.Apirepo}${reponame}`).toPromise().then(response => {
+        for (let i = 0; i < response.items.length; i++) {
+          let repoByName = new RepoName("", "", "", "", 0, new Date());
+          repoByName.name = response.items[i]["name"]
+          repoByName.description = response.items[i]["description"]
+          repoByName.language = response.items[i]["language"]
+          repoByName.html_url = response.items[i]["html_url"]
+          repoByName.forks = response.items[i]["forks"]
+          repoByName.updated_at = response.items[i]["updated_at"]
+          this.reposByName.push(repoByName)
+        }
+        resolve()
+      },
+        error => { 
           console.log("an error occured")
           reject(error)
         })

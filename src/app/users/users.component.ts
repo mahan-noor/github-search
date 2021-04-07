@@ -1,7 +1,9 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Repo } from '../repo';
 import { User } from '../user';
 import { UserserviceService } from '../userservice.service';
+
 
 @Component({
   selector: 'app-users',
@@ -13,7 +15,8 @@ export class UsersComponent implements OnInit {
   username: any;
   repo: Repo[];
   reponame: any;
-    constructor(private myService: UserserviceService) {
+
+    constructor(private myService: UserserviceService , private router : Router) {
     }
   
     searchName() {
@@ -24,13 +27,16 @@ export class UsersComponent implements OnInit {
       this.username = ''
 
     }
-    searchRepo() {
-      this.myService.allRepo(this.reponame)
-      this.repo = this.myService.repo
-   
-
+    findRepoName(){
+      this.myService.repoSearchName(this.reponame)
+      this.repo = this.myService.reposByName
       this.reponame = ''
     }
+    // searchRepo() {
+    //   localStorage.setItem("reponame", this.reponame);
+    // this.router.navigate(['/repositories']);
+    // this.reponame = ''
+    // }
     ngOnInit() {
       this.myService.searchUser("mahan-noor")
       this.user = this.myService.user
