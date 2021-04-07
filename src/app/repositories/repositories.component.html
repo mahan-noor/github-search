@@ -1,16 +1,30 @@
- <!-- <div class="container-fluid">
-<app-search-form (searchOutput)= "repoSearch($event)"></app-search-form>
+<div class="container-fluid">
+<!-- <app-search-form (searchOutput)= "repoSearch($event)"></app-search-form> -->
+
+<div class="container">
+  <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm1-10">
+          <form class="form-inline">
+              <input class="form-control" type="search" placeholder="Enter reponame..." name="repoSearch"  [(ngModel)]="reponame" aria-label="Search">
+              <button class="btn btn-info " (click) = "findRepo()">Search</button>
+          </form>
+      </div>
+      <div class="col-sm-1"></div>
+  </div>
+</div>  
+
   <div class="container">
       <div class="container allrepos">
-          <div class="card" appHighlight *ngFor="let repository of repo" style="width: 22rem;" class="repo">
+          <div class="card" appHighlight *ngFor="let repo of repo" style="width: 22rem;" class="repo">
             <div class="card-body">
-              <h5 class="card-title">Repo Name: &nbsp;{{repository.name}} </h5>
+              <h5 class="card-title">Repo Name: &nbsp;{{repo.name}} </h5>
               <div class="card-text">
                 <hr>
-                <div class="desc"><span class="top">Description:</span> &nbsp;{{repository.description}} 
+                <div class="desc"><span class="top">Description:</span> &nbsp;{{repo.description}} 
                 </div>
                 <hr>
-                <div class="card-subtitle mb-2"><span class="top">Created On:</span> &nbsp;{{repository.created_at | date}}</div>
+               <!-- <div class="card-subtitle mb-2"><span class="top">Created On:</span> &nbsp;{{repository.created_at | date}}</div>
               </div>
               </div>
               <div class="card-footer">
@@ -24,4 +38,4 @@
           </div>
         </div>
   </div>
-</div> --> -->
+</div> --> 
